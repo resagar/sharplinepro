@@ -13,20 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BestWriter - Escribe blogs perfectos con IA",
-  description: "Transforma tus ideas en contenido profesional. Corrección automática, resúmenes para redes sociales y extractos optimizados para SEO. Todo en una sola plataforma.",
-  keywords: "escritura, blog, IA, inteligencia artificial, corrección, SEO, redes sociales",
+  title: "BestWriter - Write perfect blogs with AI",
+  description: "Transform your ideas into professional content. Automatic correction, social media summaries and SEO-optimized excerpts. All in one platform.",
+  keywords: "writing, blog, AI, artificial intelligence, correction, SEO, social media",
   authors: [{ name: "BestWriter Team" }],
   openGraph: {
-    title: "BestWriter - Escribe blogs perfectos con IA",
-    description: "Transforma tus ideas en contenido profesional con inteligencia artificial",
+    title: "BestWriter - Write perfect blogs with AI",
+    description: "Transform your ideas into professional content with artificial intelligence",
     type: "website",
-    locale: "es_ES",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BestWriter - Escribe blogs perfectos con IA",
-    description: "Transforma tus ideas en contenido profesional con inteligencia artificial",
+    title: "BestWriter - Write perfect blogs with AI",
+    description: "Transform your ideas into professional content with artificial intelligence",
   },
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
