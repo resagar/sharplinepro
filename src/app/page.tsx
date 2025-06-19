@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { CheckIcon, PenToolIcon, ShareIcon, EyeIcon, SparklesIcon, ZapIcon, TrendingUpIcon, UsersIcon, XIcon } from "lucide-react"
+import { CheckIcon, PenToolIcon, ShareIcon, EyeIcon, SparklesIcon, ZapIcon, TrendingUpIcon, UsersIcon, XIcon, LinkedinIcon, TwitterIcon } from "lucide-react"
 import Link from "next/link"
 
 export default function LandingPage() {
@@ -32,12 +32,16 @@ export default function LandingPage() {
             </Link>
           </nav>
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-gray-600 hover:text-[#4F46E5]">
-              Sign In
-            </Button>
-            <Button className="bg-[#4F46E5] hover:bg-[#4338CA] text-white">
-              Get Started Free
-            </Button>
+            <Link href="/auth/signin">
+              <Button variant="ghost" className="text-gray-600 hover:text-[#4F46E5]">
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/auth/signup">
+              <Button className="bg-[#4F46E5] hover:bg-[#4338CA] text-white">
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -58,17 +62,16 @@ export default function LandingPage() {
             and SEO-optimized excerpts. All in one platform.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="bg-[#4F46E5] hover:bg-[#4338CA] text-white px-8 py-3 text-lg">
-              <ZapIcon className="w-5 h-5 mr-2" />
-              Get Started Free
-            </Button>
+            <Link href="/auth/signup">
+              <Button size="lg" className="bg-[#4F46E5] hover:bg-[#4338CA] text-white px-8 py-3 text-lg">
+                <ZapIcon className="w-5 h-5 mr-2" />
+                Get Started
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="border-[#4F46E5] text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white px-8 py-3 text-lg">
               Watch Demo
             </Button>
           </div>
-          <p className="text-sm text-gray-500 mt-4">
-            No credit card required • 14-day free trial
-          </p>
         </div>
       </section>
 
@@ -85,7 +88,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader>
                 <div className="w-12 h-12 bg-[#4F46E5]/10 rounded-lg flex items-center justify-center mb-4">
                   <CheckIcon className="w-6 h-6 text-[#4F46E5]" />
@@ -113,7 +116,7 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader>
                 <div className="w-12 h-12 bg-[#4F46E5]/10 rounded-lg flex items-center justify-center mb-4">
                   <ShareIcon className="w-6 h-6 text-[#4F46E5]" />
@@ -141,7 +144,7 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader>
                 <div className="w-12 h-12 bg-[#4F46E5]/10 rounded-lg flex items-center justify-center mb-4">
                   <EyeIcon className="w-6 h-6 text-[#4F46E5]" />
@@ -262,50 +265,9 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Free Plan */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Free</CardTitle>
-                <div className="text-4xl font-bold text-gray-900 mt-4">
-                  $0
-                  <span className="text-lg font-normal text-gray-600">/month</span>
-                </div>
-                <CardDescription className="mt-4">
-                  Perfect for getting started with AI-powered writing
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>5 articles per month</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Basic grammar correction</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Social media summaries</span>
-                  </li>
-                  <li className="flex items-center">
-                    <XIcon className="w-5 h-5 text-gray-400 mr-3" />
-                    <span className="text-gray-500">Advanced AI corrections</span>
-                  </li>
-                  <li className="flex items-center">
-                    <XIcon className="w-5 h-5 text-gray-400 mr-3" />
-                    <span className="text-gray-500">SEO optimization</span>
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" variant="outline">
-                  Get Started Free
-                </Button>
-              </CardContent>
-            </Card>
-
+          <div className="max-w-md mx-auto">
             {/* Pro Plan */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 relative border-[#4F46E5] border-2">
+            <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 relative border-[#4F46E5] border-2">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-[#4F46E5] text-white px-4 py-1">
                   Most Popular
@@ -344,50 +306,11 @@ export default function LandingPage() {
                     <span>Priority support</span>
                   </li>
                 </ul>
-                <Button className="w-full mt-6 bg-[#4F46E5] hover:bg-[#4338CA]">
-                  Start Pro Trial
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Enterprise Plan */}
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Enterprise</CardTitle>
-                <div className="text-4xl font-bold text-gray-900 mt-4">
-                  $99
-                  <span className="text-lg font-normal text-gray-600">/month</span>
-                </div>
-                <CardDescription className="mt-4">
-                  For teams and organizations with high-volume needs
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Unlimited articles</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Advanced AI corrections</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Team collaboration</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>Custom integrations</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckIcon className="w-5 h-5 text-green-500 mr-3" />
-                    <span>24/7 dedicated support</span>
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" variant="outline">
-                  Contact Sales
-                </Button>
+                <Link href="/auth/signup">
+                  <Button className="w-full mt-6 bg-[#4F46E5] hover:bg-[#4338CA]">
+                    Start Pro Trial
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
@@ -442,24 +365,6 @@ export default function LandingPage() {
                 Absolutely. We take data security seriously. Your content is encrypted in transit and at rest. We never share your content with third parties, and you maintain full ownership of everything you create. You can delete your content at any time.
               </AccordionContent>
             </AccordionItem>
-
-            <AccordionItem value="item-5" className="border border-gray-200 rounded-lg px-6">
-              <AccordionTrigger className="text-left">
-                Do you offer refunds?
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
-                We offer a 30-day money-back guarantee for all paid plans. If you're not satisfied with BestWriter within the first 30 days, contact our support team for a full refund, no questions asked.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="item-6" className="border border-gray-200 rounded-lg px-6">
-              <AccordionTrigger className="text-left">
-                Can I upgrade or downgrade my plan?
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
-                Yes, you can change your plan at any time. When upgrading, you'll get immediate access to new features. When downgrading, changes take effect at the start of your next billing cycle. Any unused credits from your current plan will be prorated.
-              </AccordionContent>
-            </AccordionItem>
           </Accordion>
         </div>
       </section>
@@ -473,19 +378,18 @@ export default function LandingPage() {
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Join thousands of writers who are already creating professional-quality content with BestWriter
           </p>
-          <Button size="lg" className="bg-white text-[#4F46E5] hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
-            Get Started Free Now
-          </Button>
-          <p className="text-white/80 mt-4">
-            14-day free trial • No commitment
-          </p>
+          <Link href="/auth/signup">
+            <Button size="lg" className="bg-white text-[#4F46E5] hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
+              Get Started Now
+            </Button>
+          </Link>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-4">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center">
@@ -503,8 +407,6 @@ export default function LandingPage() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="#" className="hover:text-white transition-colors">Features</Link></li>
                 <li><Link href="#" className="hover:text-white transition-colors">Pricing</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">API</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Integrations</Link></li>
               </ul>
             </div>
             
@@ -513,19 +415,19 @@ export default function LandingPage() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="#" className="hover:text-white transition-colors">About</Link></li>
                 <li><Link href="#" className="hover:text-white transition-colors">Blog</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="#" className="hover:text-white transition-colors">Help Center</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Documentation</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Service Status</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Terms</Link></li>
-              </ul>
+              <h4 className="font-semibold mb-4">Follow Us</h4>
+              <div className="flex space-x-4">
+                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <TwitterIcon className="w-5 h-5" />
+                </Link>
+                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
+                  <LinkedinIcon className="w-5 h-5" />
+                </Link>
+              </div>
             </div>
           </div>
           

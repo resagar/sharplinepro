@@ -12,21 +12,6 @@ import Link from "next/link"
 
 const plans = [
   {
-    name: "Free",
-    price: 0,
-    description: "Perfect for getting started with AI-powered writing",
-    features: [
-      "5 articles per month",
-      "Basic grammar correction",
-      "Social media summaries",
-    ],
-    limitations: [
-      "Advanced AI corrections",
-      "SEO optimization",
-    ],
-    priceId: null,
-  },
-  {
     name: "Pro",
     price: 19,
     description: "For professional writers and content creators",
@@ -40,20 +25,6 @@ const plans = [
     limitations: [],
     priceId: "price_pro_monthly", // Replace with actual Stripe price ID
     popular: true,
-  },
-  {
-    name: "Enterprise",
-    price: 99,
-    description: "For teams and organizations with high-volume needs",
-    features: [
-      "Unlimited articles",
-      "Advanced AI corrections",
-      "Team collaboration",
-      "Custom integrations",
-      "24/7 dedicated support",
-    ],
-    limitations: [],
-    priceId: "price_enterprise_monthly", // Replace with actual Stripe price ID
   },
 ]
 
@@ -164,7 +135,7 @@ export default function PricingPage() {
               Choose Your Plan
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Start free and upgrade as you grow. All plans include our core AI writing features.
+              Choose the plan that fits your writing needs. All plans include our core AI writing features.
             </p>
           </div>
 
@@ -176,7 +147,7 @@ export default function PricingPage() {
             </div>
           )}
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="max-w-md mx-auto">
             {plans.map((plan) => (
               <Card
                 key={plan.name}
@@ -243,7 +214,7 @@ export default function PricingPage() {
                       asChild
                     >
                       <Link href={session ? "/dashboard" : "/auth/signup"}>
-                        {session ? "Go to Dashboard" : "Get Started Free"}
+                        {session ? "Go to Dashboard" : "Get Started"}
                       </Link>
                     </Button>
                   )}

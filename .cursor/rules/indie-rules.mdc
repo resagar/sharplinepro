@@ -1,0 +1,96 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+### 🧩 Reglas para Cursor — Stack React + Next.js + Prisma + NestJS (sin tRPC)
+
+**Lenguaje Base:** TypeScript
+
+#### 📁 Estructura de carpetas recomendada
+
+* `app/`: rutas y componentes de páginas (App Router)
+* `components/`: UI reutilizable
+* `lib/`: utilidades y helpers (validaciones, DB, auth, etc.)
+* `server/`: lógica de backend (API routes, NestJS handlers)
+* `types/`: tipos globales
+* `styles/`: configuración global de estilos (Tailwind)
+
+---
+
+### ✅ Reglas de Estilo
+
+#### 🔠 Tipado
+
+* Habilitar `strict` en `tsconfig.json`
+* Evitar `any`; prefiere `unknown`, `z.infer<typeof schema>`, o tipos definidos
+* Centralizar tipos compartidos en `types/` o junto al schema correspondiente
+
+#### 🔄 Validación
+
+* Usa **Zod** para:
+
+  * Validar formularios en frontend
+  * Validar inputs en endpoints (`api/`) o servicios NestJS
+* Componer esquemas por partes: `schemaBase`, `schemaCreate`, `schemaUpdate`
+
+#### 📦 Componentes
+
+* Componentes base UI (ej. `Button`, `Input`) van en `components/ui/`
+* Prefiere server components cuando sea posible (menos JS en client)
+* Usa `forwardRef` para compatibilidad con shadcn/ui o librerías externas
+
+#### ⚙️ Backend (NestJS + Prisma)
+
+* Usa NestJS como backend independiente o desde `/server/`
+* Sigue el patrón: `Controller → Service → Repository`
+* Prisma: crea un `lib/prisma.ts` singleton para evitar múltiples instancias
+
+---
+
+### 🧪 Formularios
+
+* Usa **React Hook Form + Zod**:
+
+  ```ts
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+  });
+  ```
+* Para inputs no controlados, usa `Controller`
+
+---
+
+### 🧬 Autenticación
+
+* Usa **NextAuth.js** con callbacks personalizados
+* Autenticación JWT o basada en sesión (según preferencia)
+* Obtén sesión con `useSession()` en client y `getServerSession()` en server
+
+---
+
+### 🎨 Estilos
+
+* Usa **TailwindCSS** como sistema base
+* shadcn/ui como librería de componentes accesibles y personalizables
+* Íconos con Lucide: [https://lucide.dev](https://lucide.dev)
+* Anima con Framer Motion (solo client components)
+
+---
+
+### 🔗 URLs oficiales de referencia (para la Sidebar de Cursor)
+
+* Next.js: [https://nextjs.org/docs](https://nextjs.org/docs)
+* React: [https://react.dev](https://react.dev)
+* TailwindCSS: [https://tailwindcss.com/docs](https://tailwindcss.com/docs)
+* shadcn/ui: [https://ui.shadcn.com](https://ui.shadcn.com)
+* Prisma: [https://www.prisma.io/docs](https://www.prisma.io/docs)
+* NestJS: [https://docs.nestjs.com](https://docs.nestjs.com)
+* React Hook Form: [https://react-hook-form.com](https://react-hook-form.com)
+* Zod: [https://zod.dev](https://zod.dev)
+* NextAuth.js: [https://authjs.dev](https://authjs.dev)
+* Resend: [https://resend.com/docs](https://resend.com/docs)
+* React Email: [https://react.email/docs](https://react.email/docs)
+* Lucide Icons: [https://lucide.dev](https://lucide.dev)
+* Framer Motion: [https://www.framer.com/motion](https://www.framer.com/motion)
+

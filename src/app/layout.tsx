@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "BestWriter - Write perfect blogs with AI",
   description: "Transform your ideas into professional content. Automatic correction, social media summaries and SEO-optimized excerpts. All in one platform.",
   keywords: "writing, blog, AI, artificial intelligence, correction, SEO, social media",
-  authors: [{ name: "BestWriter Team" }],
+  authors: [{ name: "Resagar" }],
   openGraph: {
     title: "BestWriter - Write perfect blogs with AI",
     description: "Transform your ideas into professional content with artificial intelligence",
