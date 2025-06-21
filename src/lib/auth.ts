@@ -42,6 +42,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name,
           hasSubscription: user.hasSubscription,
+          // Note: hasPaidSubscription will be available after migration
+          hasPaidSubscription: user.hasPaidSubscription || false,
         }
       }
     })
@@ -53,6 +55,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.hasSubscription = user.hasSubscription
+        token.hasPaidSubscription = user.hasPaidSubscription || false
       }
       return token
     },
@@ -60,12 +63,13 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user.id = token.sub!
         session.user.hasSubscription = token.hasSubscription as boolean
+        session.user.hasPaidSubscription = token.hasPaidSubscription as boolean
       }
       return session
     }
   },
   pages: {
     signIn: "/auth/signin",
-    signUp: "/auth/signup"
+ 
   }
 }

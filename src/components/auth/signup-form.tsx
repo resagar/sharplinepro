@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
@@ -42,6 +43,7 @@ export function SignupForm() {
     setError("")
 
     try {
+      // First, register the user
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
@@ -56,8 +58,21 @@ export function SignupForm() {
         throw new Error(result.error || "Registration failed")
       }
 
-      // Redirect to pricing page after successful registration
-      router.push("/pricing?registered=true")
+      // If registration successful, automatically sign in the user
+      const signInResult = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false
+      })
+
+      if (signInResult?.error) {
+        // If signin fails, still redirect to pricing but user will need to login
+        router.push("/pricing?registered=true")
+      } else {
+        // If signin successful, redirect to pricing with registered flag
+        router.push("/pricing?registered=true")
+        router.refresh()
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : "Registration failed")
     } finally {

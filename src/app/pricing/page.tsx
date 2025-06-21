@@ -1,14 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useSession } from "next-auth/react"
-import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { CheckIcon, XIcon, LoaderIcon } from "lucide-react"
+import { CheckIcon, XIcon, PenToolIcon } from "lucide-react"
 import Link from "next/link"
+import { PaymentVerificationModal } from "@/components/payments/payment-verification-modal"
 
 const plans = [
   {
@@ -23,75 +22,29 @@ const plans = [
       "Priority support",
     ],
     limitations: [],
-    priceId: "price_pro_monthly", // Replace with actual Stripe price ID
+    gumroadUrl: "https://gumroad.com/l/bestwriter-pro",
     popular: true,
   },
 ]
 
 export default function PricingPage() {
-  const { data: session, status } = useSession()
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
-  const [message, setMessage] = useState("")
+  const { data: session } = useSession()
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
 
-  useEffect(() => {
-    const registered = searchParams.get("registered")
-    const subscriptionRequired = searchParams.get("subscription_required")
-    const success = searchParams.get("success")
-    const canceled = searchParams.get("canceled")
-
-    if (registered) {
-      setMessage("Account created successfully! Choose a plan to get started.")
-    } else if (subscriptionRequired) {
-      setMessage("A subscription is required to access the dashboard.")
-    } else if (success) {
-      setMessage("Payment successful! Welcome to BestWriter Pro.")
-      // Refresh session to get updated subscription status
-      router.refresh()
-    } else if (canceled) {
-      setMessage("Payment was canceled. You can try again anytime.")
-    }
-  }, [searchParams, router])
-
-  const handleSubscribe = async (priceId: string, planName: string) => {
+  const handleSubscribe = (gumroadUrl: string, price: number) => {
     if (!session) {
-      router.push("/auth/signin?callbackUrl=/pricing")
+      // Redirect to sign in if not authenticated
+      window.location.href = "/auth/signin?callbackUrl=/pricing"
       return
     }
 
-    setLoadingPlan(planName)
+    const gumroadUrlWithEmail = `${gumroadUrl}?email=${session.user.email}&wanted=true&${price}`
 
-    try {
-      const response = await fetch("/api/stripe/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ priceId }),
-      })
-
-      const data = await response.json()
-
-      if (data.url) {
-        window.location.href = data.url
-      } else {
-        throw new Error("Failed to create checkout session")
-      }
-    } catch (error) {
-      console.error("Subscription error:", error)
-      setMessage("Failed to start subscription process. Please try again.")
-    } finally {
-      setLoadingPlan(null)
-    }
-  }
-
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white flex items-center justify-center">
-        <LoaderIcon className="h-8 w-8 animate-spin" />
-      </div>
-    )
+    // Open Gumroad in new tab
+    window.open(gumroadUrlWithEmail, '_blank')
+    
+    // Show payment verification modal
+    setShowPaymentModal(true)
   }
 
   return (
@@ -101,7 +54,7 @@ export default function PricingPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">B</span>
+              <PenToolIcon className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900">BestWriter</span>
           </Link>
@@ -138,14 +91,6 @@ export default function PricingPage() {
               Choose the plan that fits your writing needs. All plans include our core AI writing features.
             </p>
           </div>
-
-          {message && (
-            <div className="max-w-2xl mx-auto mb-8">
-              <Alert>
-                <AlertDescription>{message}</AlertDescription>
-              </Alert>
-            </div>
-          )}
 
           <div className="max-w-md mx-auto">
             {plans.map((plan) => (
@@ -187,37 +132,17 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
-                  {plan.priceId ? (
-                    <Button
-                      className={`w-full mt-6 ${
-                        plan.popular
-                          ? "bg-[#4F46E5] hover:bg-[#4338CA]"
-                          : ""
-                      }`}
-                      variant={plan.popular ? "default" : "outline"}
-                      onClick={() => handleSubscribe(plan.priceId!, plan.name)}
-                      disabled={loadingPlan === plan.name}
-                    >
-                      {loadingPlan === plan.name ? (
-                        <>
-                          <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
-                          Processing...
-                        </>
-                      ) : (
-                        `Subscribe to ${plan.name}`
-                      )}
-                    </Button>
-                  ) : (
-                    <Button
-                      className="w-full mt-6"
-                      variant="outline"
-                      asChild
-                    >
-                      <Link href={session ? "/dashboard" : "/auth/signup"}>
-                        {session ? "Go to Dashboard" : "Get Started"}
-                      </Link>
-                    </Button>
-                  )}
+                  <Button
+                    className={`w-full mt-6 ${
+                      plan.popular
+                        ? "bg-[#4F46E5] hover:bg-[#4338CA]"
+                        : ""
+                    }`}
+                    variant={plan.popular ? "default" : "outline"}
+                    onClick={() => handleSubscribe(plan.gumroadUrl, plan.price)}
+                  >
+                    Subscribe to {plan.name}
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -233,6 +158,12 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+
+      {/* Payment Verification Modal */}
+      <PaymentVerificationModal 
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+      />
     </div>
   )
 }

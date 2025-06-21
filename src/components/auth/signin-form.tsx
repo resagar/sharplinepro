@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { EyeIcon, EyeOffIcon, LoaderIcon } from "lucide-react"
+import { EyeIcon, EyeOffIcon, LoaderIcon, CheckCircleIcon } from "lucide-react"
 import Link from "next/link"
 
 const signinSchema = z.object({
@@ -28,6 +28,7 @@ export function SigninForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
+  const paymentSuccess = searchParams.get("payment_success")
 
   const {
     register,
@@ -70,6 +71,15 @@ export function SigninForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {paymentSuccess && (
+          <Alert className="mb-6 border-green-200 bg-green-50">
+            <CheckCircleIcon className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-800">
+              🎉 Payment successful! Please sign in to access your Pro features.
+            </AlertDescription>
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {error && (
             <Alert variant="destructive">

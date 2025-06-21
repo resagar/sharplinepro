@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { PenToolIcon, FileTextIcon, ShareIcon, BarChartIcon } from "lucide-react"
 import Link from "next/link"
+import { SignOutButton } from "@/components/auth/signout-button"
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
@@ -14,7 +15,10 @@ export default async function DashboardPage() {
     redirect("/auth/signin")
   }
 
-  if (!session.user.hasSubscription) {
+  // Check both subscription flags
+  const hasValidSubscription = session.user.hasSubscription || (session.user as any).hasPaidSubscription
+  
+  if (!hasValidSubscription) {
     redirect("/pricing?subscription_required=true")
   }
 
@@ -31,12 +35,10 @@ export default async function DashboardPage() {
           </Link>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary" className="bg-green-100 text-green-800">
-              Pro Member
+              {(session.user as any).hasPaidSubscription ? 'Pro Member (Gumroad)' : 'Pro Member'}
             </Badge>
             <span className="text-sm text-gray-600">Welcome, {session.user.name}</span>
-            <Button variant="outline" asChild>
-              <Link href="/api/auth/signout">Sign Out</Link>
-            </Button>
+            <SignOutButton />
           </div>
         </div>
       </header>
@@ -117,9 +119,11 @@ export default async function DashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-[#4F46E5] hover:bg-[#4338CA]">
-                <PenToolIcon className="mr-2 h-4 w-4" />
-                New Article
+              <Button className="w-full bg-[#4F46E5] hover:bg-[#4338CA]" asChild>
+                <Link href="/editor">
+                  <PenToolIcon className="mr-2 h-4 w-4" />
+                  New Article
+                </Link>
               </Button>
             </CardContent>
           </Card>

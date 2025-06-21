@@ -73,24 +73,32 @@ alwaysApply: true
 
 * Usa **TailwindCSS** como sistema base
 * shadcn/ui como librería de componentes accesibles y personalizables
-* Íconos con Lucide: [https://lucide.dev](https://lucide.dev)
+* Íconos con Lucide: [https://lucide.dev](mdc:https:/lucide.dev)
 * Anima con Framer Motion (solo client components)
+
+---
+
+### Commands
+
+* Para instalaciones y comandos no uso npm uso pnpm y sus distintos comandos
+* Para el caso de comandos de prisma se ejecutaran usando pnpm dlx <comando de prisma>
+* Cuando se vaya a ejecutar un comando de prisma en el entorno de desarrollo hay que detener el servidor de desarrollo de next primero antes de ejecutar el comando de prisma
 
 ---
 
 ### 🔗 URLs oficiales de referencia (para la Sidebar de Cursor)
 
-* Next.js: [https://nextjs.org/docs](https://nextjs.org/docs)
-* React: [https://react.dev](https://react.dev)
-* TailwindCSS: [https://tailwindcss.com/docs](https://tailwindcss.com/docs)
-* shadcn/ui: [https://ui.shadcn.com](https://ui.shadcn.com)
-* Prisma: [https://www.prisma.io/docs](https://www.prisma.io/docs)
-* NestJS: [https://docs.nestjs.com](https://docs.nestjs.com)
-* React Hook Form: [https://react-hook-form.com](https://react-hook-form.com)
-* Zod: [https://zod.dev](https://zod.dev)
-* NextAuth.js: [https://authjs.dev](https://authjs.dev)
-* Resend: [https://resend.com/docs](https://resend.com/docs)
-* React Email: [https://react.email/docs](https://react.email/docs)
-* Lucide Icons: [https://lucide.dev](https://lucide.dev)
-* Framer Motion: [https://www.framer.com/motion](https://www.framer.com/motion)
+* Next.js: [https://nextjs.org/docs](mdc:https:/nextjs.org/docs)
+* React: [https://react.dev](mdc:https:/react.dev)
+* TailwindCSS: [https://tailwindcss.com/docs](mdc:https:/tailwindcss.com/docs)
+* shadcn/ui: [https://ui.shadcn.com](mdc:https:/ui.shadcn.com)
+* Prisma: [https://www.prisma.io/docs](mdc:https:/www.prisma.io/docs)
+* NestJS: [https://docs.nestjs.com](mdc:https:/docs.nestjs.com)
+* React Hook Form: [https://react-hook-form.com](mdc:https:/react-hook-form.com)
+* Zod: [https://zod.dev](mdc:https:/zod.dev)
+* NextAuth.js: [https://authjs.dev](mdc:https:/authjs.dev)
+* Resend: [https://resend.com/docs](mdc:https:/resend.com/docs)
+* React Email: [https://react.email/docs](mdc:https:/react.email/docs)
+* Lucide Icons: [https://lucide.dev](mdc:https:/lucide.dev)
+* Framer Motion: [https://www.framer.com/motion](mdc:https:/www.framer.com/motion)
 
