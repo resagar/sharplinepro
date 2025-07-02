@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { PenToolIcon, FileTextIcon, ShareIcon, BarChartIcon } from "lucide-react"
+import { PenToolIcon, FileTextIcon, BarChartIcon } from "lucide-react"
 import Link from "next/link"
 import { SignOutButton } from "@/components/auth/signout-button"
 
@@ -84,19 +84,6 @@ export default async function DashboardPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Social Posts</CardTitle>
-              <ShareIcon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">
-                Generated summaries
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">SEO Score</CardTitle>
               <BarChartIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
@@ -161,20 +148,6 @@ export default async function DashboardPage() {
               <CardContent>
                 <p className="text-gray-600">
                   Advanced grammar, spelling, and style corrections powered by AI
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <ShareIcon className="mr-2 h-5 w-5 text-[#4F46E5]" />
-                  Social Summaries
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">
-                  Generate optimized summaries for all major social media platforms
                 </p>
               </CardContent>
             </Card>

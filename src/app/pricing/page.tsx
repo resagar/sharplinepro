@@ -17,7 +17,6 @@ const plans = [
     features: [
       "50 articles per month",
       "Advanced AI corrections",
-      "Social media summaries",
       "SEO optimization",
       "Priority support",
     ],

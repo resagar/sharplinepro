@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { CheckIcon, PenToolIcon, ShareIcon, EyeIcon, SparklesIcon, ZapIcon, TrendingUpIcon, UsersIcon, XIcon, LinkedinIcon, TwitterIcon, ChevronDownIcon } from "lucide-react"
+import { CheckIcon, PenToolIcon, EyeIcon, SparklesIcon, ZapIcon, TrendingUpIcon, UsersIcon, LinkedinIcon, TwitterIcon, LucideIcon, CpuIcon, ShareIcon } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 import { useCounterAnimation } from "@/hooks/useCounterAnimation"
 
 const StatItem = ({ icon: Icon, target, suffix, label, delay }: {
-  icon: any,
+  icon: LucideIcon,
   target: number,
   suffix: string,
   label: string,
@@ -141,7 +141,7 @@ export default function LandingPage() {
               animate: { opacity: 1, y: 0 }
             }}
           >
-            Transform your ideas into professional content. Automatic correction, social media summaries 
+            Transform your ideas into professional content. Automatic correction 
             and SEO-optimized excerpts. All in one platform.
           </motion.p>
           
@@ -190,19 +190,13 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {[
               {
                 icon: CheckIcon,
                 title: "Smart Correction",
                 description: "Advanced AI that corrects grammar, spelling, style and coherence in real time",
                 features: ["Advanced grammar correction", "Style and tone improvements", "Coherence suggestions"]
-              },
-              {
-                icon: ShareIcon,
-                title: "Social Summaries",
-                description: "Automatically generate optimized summaries for each social network",
-                features: ["Twitter/X posts", "LinkedIn content", "Facebook descriptions"]
               },
               {
                 icon: EyeIcon,
@@ -310,26 +304,29 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Líneas conectoras en desktop */}
-            <div className="hidden md:block absolute top-8 left-1/6 right-1/6 h-0.5 bg-gradient-to-r 
-                            from-[#4F46E5]/30 via-[#7C3AED]/50 to-[#4F46E5]/30" />
+          <div className="grid md:grid-cols-3 gap-12 relative mb-12">
+            {/* Líneas conectoras simplificadas */}
+            <div className="hidden md:block absolute top-12 left-1/4 right-1/4 h-px bg-gradient-to-r 
+                            from-transparent via-gray-300 to-transparent" />
             
             {[
               {
                 step: 1,
+                icon: PenToolIcon,
                 title: "Write your draft",
                 description: "Start by writing your ideas. Don't worry about perfection, just get your initial content down."
               },
               {
                 step: 2,
+                icon: CpuIcon,
                 title: "AI improves your content",
                 description: "Our AI analyzes and enhances your text, correcting errors and optimizing style and coherence."
               },
               {
                 step: 3,
+                icon: ShareIcon,
                 title: "Publish and share",
-                description: "Get social media summaries and SEO excerpts ready to publish on any platform."
+                description: "Get SEO excerpts ready to publish on any platform with optimized metadata."
               }
             ].map((item, index) => (
               <motion.div 
@@ -341,17 +338,31 @@ export default function LandingPage() {
                 viewport={{ once: true }}
               >
                 <motion.div 
-                  className="w-16 h-16 bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] 
+                  className="w-24 h-24 bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] 
                              rounded-full flex items-center justify-center mx-auto mb-6
-                             shadow-xl ring-4 ring-[#4F46E5]/20 group-hover:animate-step-pulse"
-                  whileHover={{ 
-                    scale: 1.1, 
-                    rotate: 360,
-                    boxShadow: "0 25px 50px -12px rgba(79, 70, 229, 0.5)"
-                  }}
-                  transition={{ duration: 0.5 }}
+                             shadow-lg relative overflow-hidden group cursor-pointer"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <span className="text-2xl font-bold text-white">{item.step}</span>
+                  {/* Icon - visible by default */}
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    initial={{ opacity: 1 }}
+                    whileHover={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <item.icon className="w-10 h-10 text-white" />
+                  </motion.div>
+                  
+                  {/* Number - visible on hover */}
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#4F46E5] to-[#7C3AED]"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <span className="text-3xl font-bold text-white">{item.step}</span>
+                  </motion.div>
                 </motion.div>
                 
                 <h3 className="text-xl font-semibold mb-4 group-hover:text-[#4F46E5] transition-colors duration-300">
@@ -363,6 +374,28 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* CTA Button */}
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <Link href="/auth/signup">
+              <Button 
+                size="lg" 
+                className="bg-[#4F46E5] hover:bg-[#4338CA] text-white px-8 py-4 
+                           rounded-full text-lg font-medium shadow-lg hover:shadow-xl
+                           transform hover:scale-105 transition-all duration-300
+                           group relative overflow-hidden"
+              >
+                <ZapIcon className="w-5 h-5 mr-2 group-hover:animate-pulse" />
+                Get started in less than 2 minutes
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -424,7 +457,6 @@ export default function LandingPage() {
                   {[
                     "50 articles per month",
                     "Advanced AI corrections",
-                    "Social media summaries",
                     "SEO optimization",
                     "Priority support"
                   ].map((feature, index) => (
@@ -531,28 +563,6 @@ export default function LandingPage() {
             >
               <AccordionItem 
                 value="item-3" 
-                className="border border-gray-200 rounded-xl px-6 mb-4 
-                           hover:border-[#4F46E5]/30 hover:shadow-lg 
-                           transition-all duration-300 group bg-white/80 backdrop-blur-sm"
-              >
-                <AccordionTrigger className="text-left group-hover:text-[#4F46E5] 
-                                              transition-colors duration-300 py-6">
-                  <span className="font-semibold">What social media platforms are supported for summaries?</span>
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-6 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  We support all major social media platforms including Twitter/X, LinkedIn, Facebook, Instagram, and more. Each summary is optimized for the specific platform's character limits and best practices to maximize engagement.
-                </AccordionContent>
-              </AccordionItem>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <AccordionItem 
-                value="item-4" 
                 className="border border-gray-200 rounded-xl px-6 mb-4 
                            hover:border-[#4F46E5]/30 hover:shadow-lg 
                            transition-all duration-300 group bg-white/80 backdrop-blur-sm"
