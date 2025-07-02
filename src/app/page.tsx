@@ -410,10 +410,10 @@ export default function LandingPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Simple, transparent pricing
+              Simple, lifetime pricing
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Choose the plan that fits your writing needs. Start free and upgrade as you grow.
+              One payment, lifetime access. No recurring fees, no hidden costs.
             </p>
           </motion.div>
 
@@ -435,7 +435,7 @@ export default function LandingPage() {
                 <Badge className="bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white px-6 py-2
                                  shadow-lg animate-badge-float hover:animate-none transition-all duration-300">
                   <SparklesIcon className="w-4 h-4 mr-1" />
-                  Most Popular
+                  Lifetime Deal
                 </Badge>
               </div>
               
@@ -444,21 +444,21 @@ export default function LandingPage() {
                   Pro
                 </CardTitle>
                 <div className="mt-6 mb-4">
-                  <span className="text-4xl font-bold text-gray-900">$19</span>
-                  <span className="text-lg font-normal text-gray-600 ml-1">/month</span>
+                  <span className="text-4xl font-bold text-gray-900">$99</span>
+                  <span className="text-lg font-normal text-gray-600 ml-1">one-time</span>
                 </div>
                 <CardDescription className="text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
-                  For professional writers and content creators
+                  Lifetime access for serious writers
                 </CardDescription>
               </CardHeader>
               
               <CardContent className="space-y-4 relative z-10 px-6 pb-8">
                 <ul className="space-y-4">
                   {[
-                    "50 articles per month",
+                    "Unlimited articles",
                     "Advanced AI corrections",
                     "SEO optimization",
-                    "Priority support"
+                    "Lifetime support"
                   ].map((feature, index) => (
                     <motion.li 
                       key={feature}
@@ -482,7 +482,7 @@ export default function LandingPage() {
                                        hover:from-[#4338CA] hover:to-[#6D28D9] text-white
                                        transform hover:scale-105 transition-all duration-300
                                        font-semibold py-3 shadow-lg hover:shadow-xl">
-                      Start Pro Trial
+                      Get Lifetime Access
                     </Button>
                   </Link>
                 </div>
@@ -547,10 +547,10 @@ export default function LandingPage() {
               >
                 <AccordionTrigger className="text-left group-hover:text-[#4F46E5] 
                                               transition-colors duration-300 py-6">
-                  <span className="font-semibold">Can I cancel my subscription at any time?</span>
+                  <span className="font-semibold">Is this really a one-time payment?</span>
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-600 pb-6 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  Yes, you can cancel your subscription at any time. There are no long-term contracts or cancellation fees. If you cancel, you'll continue to have access to your paid features until the end of your current billing period.
+                  Yes! Pay once and get lifetime access to all features. No recurring charges, no hidden fees, no surprises. Your access never expires.
                 </AccordionContent>
               </AccordionItem>
             </motion.div>
