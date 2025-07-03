@@ -24,6 +24,10 @@ proxy:
     - www.sharplinepro.com
   # Proxy connects to your container on port 80 by default.
   app_port: 3000
+  healthcheck:
+    path: /api/up
+    timeout: 5
+    interval: 3
 
 # Credentials for your image host.
 registry:
