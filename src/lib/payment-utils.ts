@@ -10,7 +10,7 @@ export async function updateUserSubscriptionAfterPayment(email: string) {
       where: { email: email.toLowerCase() },
       data: { 
         hasSubscription: true,
-        // Note: hasPaidSubscription will be available after migration
+        hasPaidSubscription: true,
       },
     })
 
@@ -31,7 +31,7 @@ export async function checkUserSubscriptionStatus(email: string) {
       where: { email: email.toLowerCase() },
       select: { 
         hasSubscription: true,
-        // Note: hasPaidSubscription will be available after migration
+        hasPaidSubscription: true,
       },
     })
 

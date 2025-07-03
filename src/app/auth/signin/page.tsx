@@ -1,5 +1,6 @@
 import { SigninForm } from "@/components/auth/signin-form"
 import { PenToolIcon } from "lucide-react"
+import { Suspense } from "react"
 
 export default function SigninPage() {
   return (
@@ -13,7 +14,9 @@ export default function SigninPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">BestWriter</h1>
           <p className="text-gray-600">Welcome back to your writing assistant</p>
         </div>
-        <SigninForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <SigninForm />
+        </Suspense>
       </div>
     </div>
   )

@@ -23,7 +23,7 @@ export default withAuth(
 
     // Check subscription for premium routes (dashboard, editor)
     if ((isDashboard || isEditor) && isAuth) {
-      const hasValidSubscription = token.hasSubscription || (token as Record<string, unknown>).hasPaidSubscription
+      const hasValidSubscription = token.hasSubscription || token.hasPaidSubscription
       
       if (!hasValidSubscription) {
         return NextResponse.redirect(new URL("/pricing?subscription_required=true", req.url))
