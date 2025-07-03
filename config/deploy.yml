@@ -20,8 +20,8 @@ servers:
 proxy:
   ssl: true
   hosts:
-    - sharplinepro.com
-    - www.sharplinepro.com
+    - sharpline.pro
+    - www.sharpline.pro
   # Proxy connects to your container on port 80 by default.
   app_port: 3000
   healthcheck:
