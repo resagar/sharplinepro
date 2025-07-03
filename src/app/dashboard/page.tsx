@@ -16,7 +16,7 @@ export default async function DashboardPage() {
   }
 
   // Check both subscription flags
-  const hasValidSubscription = session.user.hasSubscription || (session.user as any).hasPaidSubscription
+  const hasValidSubscription = session.user.hasSubscription || session.user.hasPaidSubscription
   
   if (!hasValidSubscription) {
     redirect("/pricing?subscription_required=true")
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
           </Link>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary" className="bg-green-100 text-green-800">
-              {(session.user as any).hasPaidSubscription ? 'Pro Member (Gumroad)' : 'Pro Member'}
+              {session.user.hasPaidSubscription ? 'Pro Member (Gumroad)' : 'Pro Member'}
             </Badge>
             <span className="text-sm text-gray-600">Welcome, {session.user.name}</span>
             <SignOutButton />

@@ -8,7 +8,6 @@ export default withAuth(
     const isAuthPage = req.nextUrl.pathname.startsWith("/auth")
     const isDashboard = req.nextUrl.pathname.startsWith("/dashboard")
     const isEditor = req.nextUrl.pathname.startsWith("/editor")
-    const isPricing = req.nextUrl.pathname.startsWith("/pricing")
 
     // Redirect authenticated users away from auth pages
     if (isAuthPage && isAuth) {
@@ -24,7 +23,7 @@ export default withAuth(
 
     // Check subscription for premium routes (dashboard, editor)
     if ((isDashboard || isEditor) && isAuth) {
-      const hasValidSubscription = token.hasSubscription || (token as any).hasPaidSubscription
+      const hasValidSubscription = token.hasSubscription || (token as Record<string, unknown>).hasPaidSubscription
       
       if (!hasValidSubscription) {
         return NextResponse.redirect(new URL("/pricing?subscription_required=true", req.url))

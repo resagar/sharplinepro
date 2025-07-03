@@ -55,6 +55,7 @@ export function SigninForm() {
         router.push(callbackUrl)
         router.refresh()
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setError("An error occurred. Please try again.")
     } finally {
@@ -147,7 +148,7 @@ export function SigninForm() {
           </Button>
 
           <div className="text-center text-sm">
-            <span className="text-gray-600">Don't have an account? </span>
+            <span className="text-gray-600">Don&apos;t have an account? </span>
             <Link
               href="/auth/signup"
               className="text-[#4F46E5] hover:underline font-medium"

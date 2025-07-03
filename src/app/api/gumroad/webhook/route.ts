@@ -8,6 +8,7 @@ export async function POST(request: NextRequest) {
 
     console.log('Webhook data:', formData)
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any = {}
     for (const [key, value] of formData.entries()) {
       data[key] = value
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
       console.log('Processing payment for:', email, 'Order:', gumroadOrderId)
 
       // Determine payment status
-      let status = 'completed'
+      const status = 'completed'
 
       // Save payment to database
       const payment = await prisma.payment.create({

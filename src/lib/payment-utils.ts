@@ -38,7 +38,7 @@ export async function checkUserSubscriptionStatus(email: string) {
     // Check for completed payments
     let hasPayment = false
     try {
-      const payment = await (prisma as any).payment.findFirst({
+      const payment = await prisma.payment.findFirst({
         where: {
           email: email.toLowerCase(),
           status: 'completed',
@@ -51,9 +51,9 @@ export async function checkUserSubscriptionStatus(email: string) {
 
     return {
       hasSubscription: user?.hasSubscription || false,
-      hasPaidSubscription: (user as any)?.hasPaidSubscription || false,
+      hasPaidSubscription: user?.hasPaidSubscription || false,
       hasPayment,
-      hasValidSubscription: user?.hasSubscription || (user as any)?.hasPaidSubscription || hasPayment,
+      hasValidSubscription: user?.hasSubscription || user?.hasPaidSubscription || hasPayment,
     }
   } catch (error) {
     console.error('Failed to check user subscription:', error)
@@ -71,7 +71,7 @@ export async function checkUserSubscriptionStatus(email: string) {
  */
 export async function getUserPaymentHistory(email: string) {
   try {
-    const payments = await (prisma as any).payment.findMany({
+    const payments = await prisma.payment.findMany({
       where: { email: email.toLowerCase() },
       orderBy: { createdAt: 'desc' },
     })

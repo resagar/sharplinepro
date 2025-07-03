@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import {
@@ -18,12 +18,12 @@ interface PaymentVerificationModalProps {
   onClose?: () => void
 }
 
-export function PaymentVerificationModal({ isOpen, onClose }: PaymentVerificationModalProps) {
+export function PaymentVerificationModal({ isOpen }: PaymentVerificationModalProps) {
   const [isVerifying, setIsVerifying] = useState(false)
   const [verificationComplete, setVerificationComplete] = useState(false)
   const router = useRouter()
 
-  const handlePaymentSuccess = async () => {
+  const handlePaymentSuccess = useCallback(async () => {
     setVerificationComplete(true)
     
     try {
@@ -40,7 +40,7 @@ export function PaymentVerificationModal({ isOpen, onClose }: PaymentVerificatio
       // Fallback: redirect to login manually
       router.push('/auth/signin?callbackUrl=/dashboard&payment_success=true')
     }
-  }
+  }, [router])
 
   const handleVerifyPayment = async () => {
     setIsVerifying(true)
@@ -79,7 +79,7 @@ export function PaymentVerificationModal({ isOpen, onClose }: PaymentVerificatio
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [isOpen, verificationComplete, router])
+  }, [isOpen, verificationComplete, handlePaymentSuccess])
 
   if (verificationComplete) {
     return (
@@ -108,13 +108,13 @@ export function PaymentVerificationModal({ isOpen, onClose }: PaymentVerificatio
         <DialogHeader>
           <DialogTitle>Complete Your Payment</DialogTitle>
           <DialogDescription>
-            Please complete your payment in the new tab, then click "I've Paid" to verify your subscription.
+            Please complete your payment in the new tab, then click &quot;I&apos;ve Paid&quot; to verify your subscription.
           </DialogDescription>
         </DialogHeader>
         
         <div className="flex flex-col gap-4 py-4">
           <p className="text-sm text-muted-foreground text-center">
-            We're automatically checking for your payment every few seconds.
+            We&apos;re automatically checking for your payment every few seconds.
           </p>
           
           <Button 
@@ -128,7 +128,7 @@ export function PaymentVerificationModal({ isOpen, onClose }: PaymentVerificatio
                 Verifying Payment...
               </>
             ) : (
-              "I've Paid - Verify Now"
+              "I&apos;ve Paid - Verify Now"
             )}
           </Button>
           
