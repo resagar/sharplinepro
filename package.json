@@ -45,6 +45,7 @@
         "@tiptap/extension-underline": "^2.22.0",
         "@tiptap/react": "^2.22.0",
         "@tiptap/starter-kit": "^2.22.0",
+        "ai": "^4.3.16",
         "bcryptjs": "^2.4.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",

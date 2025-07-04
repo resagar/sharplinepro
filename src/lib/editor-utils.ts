@@ -85,12 +85,28 @@ export async function callCorrectionAPI(
  * Apply a suggestion to the content by replacing the original text
  */
 export function applySuggestionToContent(
-  content: string, 
-  original: string, 
-  suggestion: string
+  htmlContent: string, 
+  originalText: string, 
+  suggestionText: string
 ): string {
-  // Simple text replacement - could be enhanced with better matching
-  return content.replace(original, suggestion);
+  // Attempt 1: Direct replacement for phrases within other text.
+  // This is a bit naive as it doesn't handle cases where the original text
+  // is split across different HTML tags, but it works for simple cases.
+  const directReplacement = htmlContent.replace(originalText, suggestionText);
+  if (directReplacement !== htmlContent) {
+    return directReplacement;
+  }
+
+  // Attempt 2: Replacement assuming the original is the entire content of a <p> tag.
+  // This is for full sentence suggestions that the AI provides.
+  const wrappedOriginal = `<p>${originalText}</p>`;
+  if (htmlContent.includes(wrappedOriginal)) {
+    return htmlContent.replace(wrappedOriginal, `<p>${suggestionText}</p>`);
+  }
+
+  // If both attempts fail, it indicates a more complex structure not handled here.
+  console.warn('Could not apply suggestion. The original text was not found in a simple format.', { originalText, htmlContent });
+  return htmlContent; // Return original content if no replacement was made.
 }
 
 /**

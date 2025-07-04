@@ -12,11 +12,11 @@ import { SuggestionsPanel } from '@/components/editor/SuggestionsPanel';
 import { StatsPanel } from '@/components/editor/StatsPanel';
 import { 
   EditorState, 
-  ApiResponse, 
   SuggestionType,
-  ComplexSentence,
-  ClicheCrutch,
-  ToneCorrection 
+  ReadabilitySuggestion,
+  ToneAndVoiceSuggestion,
+  ClichesSuggestion,
+  GrammarCorrection
 } from '@/types/editor';
 import { 
   calculateStats, 
@@ -46,10 +46,14 @@ export default function EditorPage() {
   const [editorState, setEditorState] = useState<EditorState>('WRITING');
   const [originalContent, setOriginalContent] = useState('');
   const [correctedContent, setCorrectedContent] = useState('');
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+  const [readability, setReadability] = useState<ReadabilitySuggestion | null>(null);
+  const [toneAndVoice, setToneAndVoice] = useState<ToneAndVoiceSuggestion | null>(null);
+  const [cliches, setCliches] = useState<ClichesSuggestion | null>(null);
   const [appliedSuggestions, setAppliedSuggestions] = useState<Set<string>>(new Set());
   const [showOriginal, setShowOriginal] = useState(true);
   const [correctionError, setCorrectionError] = useState<string | null>(null);
+  const [isClichesLoading, setIsClichesLoading] = useState(false);
+  const [editorKey, setEditorKey] = useState(0);
 
   // Watch form values
   const watchedTitle = watch('title');
@@ -77,45 +81,63 @@ export default function EditorPage() {
     setEditorState('CORRECTING');
     setCorrectionError(null);
     setOriginalContent(data.content);
+    
+    // Reset previous suggestions
+    setReadability(null);
+    setToneAndVoice(null);
+    setCliches(null);
+    setAppliedSuggestions(new Set());
 
     try {
-      // TODO: Uncomment when API credentials are ready
-      // const credentials = { username: 'your-username', password: 'your-password' };
-      // const response = await callCorrectionAPI(data.title, data.content, credentials);
+      // Step 1: Correct grammar
+      const plainTextContent = data.content.replace(/<[^>]*>/g, '\n');
       
-      // Mock response for development
-      const mockResponse: ApiResponse = {
-        new_article: data.content.replace(/\b(muy|bastante|realmente)\b/gi, '').replace(/\s+/g, ' '),
-        corrections: {
-          normalizedData: {
-            complex_sentences: [
-              {
-                oración: "Esta es una oración de ejemplo que podría ser simplificada.",
-                nivel: "difícil",
-                motivo: "Oración compleja con múltiples cláusulas",
-                sugerencia: "Esta oración de ejemplo se puede simplificar."
-              }
-            ],
-            correction_tono_voice: {
-              tono_general: "neutral",
-              discordancias: [],
-              pasivas_convertidas: []
-            },
-            cliche_crutche: [
-              {
-                original: "muy importante",
-                sugerencia: "esencial"
-              }
-            ]
-          }
-        }
-      };
+      const grammarResponse = await fetch('/api/ai/correct-grammar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: plainTextContent }),
+      });
 
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (!grammarResponse.ok) {
+        throw new Error(`Grammar correction failed: ${grammarResponse.statusText}`);
+      }
+
+      const { correctedText } = await grammarResponse.json() as GrammarCorrection;
+      const correctedHtml = `<p>${correctedText.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+      setCorrectedContent(correctedHtml);
+
+      // Step 2: Run other analyses in parallel with the corrected text
+      const [readabilityRes, toneAndVoiceRes, clichesRes] = await Promise.all([
+        fetch('/api/ai/analyze-readability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: correctedText }),
+        }),
+        fetch('/api/ai/analyze-tone-voice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: correctedText }),
+        }),
+        fetch('/api/ai/find-cliches', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: correctedText }),
+        }),
+      ]);
+
+      if (!readabilityRes.ok || !toneAndVoiceRes.ok || !clichesRes.ok) {
+        // A more granular error handling could be implemented here
+        throw new Error('One or more analyses failed.');
+      }
+
+      const readabilityData = await readabilityRes.json();
+      const toneAndVoiceData = await toneAndVoiceRes.json();
+      const clichesData = await clichesRes.json();
+
+      setReadability(readabilityData);
+      setToneAndVoice(toneAndVoiceData);
+      setCliches(clichesData);
       
-      setApiResponse(mockResponse);
-      setCorrectedContent(mockResponse.new_article);
       setEditorState('CORRECTED');
       
     } catch (error) {
@@ -139,7 +161,39 @@ export default function EditorPage() {
     
     setCorrectedContent(newContent);
     setAppliedSuggestions(prev => new Set(prev).add(suggestion.id));
+    setEditorKey(prevKey => prevKey + 1);
   }, [correctedContent, appliedSuggestions]);
+
+  const handleReanalyzeCliches = async () => {
+    if (!correctedContent) return;
+
+    setIsClichesLoading(true);
+    try {
+      const response = await fetch('/api/ai/find-cliches', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: correctedContent }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to re-analyze cliches');
+      }
+
+      const clichesData = await response.json();
+      setCliches(clichesData);
+      
+      // Clear old cliche suggestions from the applied set
+      setAppliedSuggestions(prev => 
+        new Set(Array.from(prev).filter(id => !id.startsWith('cliche-')))
+      );
+
+    } catch (error) {
+      console.error('Error re-analyzing cliches:', error);
+      // Optionally, set an error state to show in the UI
+    } finally {
+      setIsClichesLoading(false);
+    }
+  };
 
   // Handle save functionality
   const handleSave = useCallback(() => {
@@ -158,13 +212,9 @@ export default function EditorPage() {
   }, [correctedContent, watchedTitle, originalContent, appliedSuggestions]);
 
   // Get suggestions data
-  const complexSentences: ComplexSentence[] = apiResponse?.corrections.normalizedData.complex_sentences || [];
-  const toneCorrections: ToneCorrection = apiResponse?.corrections.normalizedData.correction_tono_voice || {
-    tono_general: '',
-    discordancias: [],
-    pasivas_convertidas: []
-  };
-  const clicheCrutches: ClicheCrutch[] = apiResponse?.corrections.normalizedData.cliche_crutche || [];
+  const complexSentences: ReadabilitySuggestion = readability || [];
+  const toneCorrections: ToneAndVoiceSuggestion | null = toneAndVoice;
+  const clicheCrutches: ClichesSuggestion = cliches || [];
 
   return (
     <div className="container mx-auto py-8 max-w-7xl">
@@ -326,6 +376,7 @@ export default function EditorPage() {
                       Contenido Corregido
                     </label>
                     <TextEditor
+                      key={editorKey}
                       value={correctedContent}
                       onChange={setCorrectedContent}
                       placeholder="Contenido corregido aparecerá aquí..."
@@ -359,13 +410,15 @@ export default function EditorPage() {
           />
 
           {/* Suggestions Panel */}
-          {editorState === 'CORRECTED' && apiResponse && (
+          {editorState === 'CORRECTED' && (
             <SuggestionsPanel
               complexSentences={complexSentences}
               toneCorrections={toneCorrections}
               clicheCrutches={clicheCrutches}
               onApplySuggestion={handleApplySuggestion}
               appliedSuggestions={appliedSuggestions}
+              onReanalyzeCliches={handleReanalyzeCliches}
+              isClichesLoading={isClichesLoading}
             />
           )}
         </div>

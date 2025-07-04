@@ -44,10 +44,8 @@ export const TextEditor: React.FC<TextEditorProps> = ({
     extensions: [
       StarterKit,
       Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: 'text-blue-600 underline cursor-pointer',
-        },
+        openOnClick: true,
+        autolink: true,
       }),
       Underline,
       CodeBlock.configure({
@@ -60,15 +58,15 @@ export const TextEditor: React.FC<TextEditorProps> = ({
           class: 'border-l-4 border-gray-300 pl-4 italic',
         },
       }),
-
     ],
     content: value,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
+    immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: 'focus:outline-none min-h-[200px] p-4',
+        class: `prose max-w-none min-h-[200px] p-3 border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 ${className}`,
       },
     },
   });
@@ -236,8 +234,6 @@ export const TextEditor: React.FC<TextEditorProps> = ({
         >
           <LinkIcon size={16} />
         </button>
-
-
 
         {/* History */}
         <button
