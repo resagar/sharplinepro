@@ -53,20 +53,22 @@ export function SuggestionsPanel({
       </CardHeader>
       <CardContent className="p-0">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mx-4 mb-4">
-            <TabsTrigger value="complex" className="text-xs">
-              <FileText className="w-4 h-4 mr-1" />
-              Oraciones
-            </TabsTrigger>
-            <TabsTrigger value="tone" className="text-xs">
-              <MessageSquare className="w-4 h-4 mr-1" />
-              Tono y Voz
-            </TabsTrigger>
-            <TabsTrigger value="cliche" className="text-xs">
-              <Repeat className="w-4 h-4 mr-1" />
-              Clichés
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="mx-4 mb-4">
+              <TabsTrigger value="complex" className="text-xs">
+                <FileText className="w-4 h-4 mr-1" />
+                Oraciones
+              </TabsTrigger>
+              <TabsTrigger value="tone" className="text-xs">
+                <MessageSquare className="w-4 h-4 mr-1" />
+                Tono y Voz
+              </TabsTrigger>
+              <TabsTrigger value="cliche" className="text-xs">
+                <Repeat className="w-4 h-4 mr-1" />
+                Clichés
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <div className="px-4 pb-4 max-h-[calc(100vh-20rem)] overflow-y-auto">
             {/* Complex Sentences Tab */}

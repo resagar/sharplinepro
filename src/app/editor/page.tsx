@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { SuggestionsPanel } from '@/components/editor/SuggestionsPanel';
 import { StatsPanel } from '@/components/editor/StatsPanel';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { 
   EditorState, 
   SuggestionType,
@@ -217,52 +219,41 @@ export default function EditorPage() {
   const clicheCrutches: ClichesSuggestion = cliches || [];
 
   return (
-    <div className="container mx-auto py-8 max-w-7xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Editor de Corrección de Artículos</h1>
-        <p className="text-muted-foreground">
-          Escribe tu artículo y obtén sugerencias inteligentes para mejorarlo
+    <div className="container mx-auto p-4 max-w-full h-screen flex flex-col">
+      <div className="mb-4 flex-shrink-0">
+        <h1 className="text-2xl font-bold">Editor de Corrección de Artículos</h1>
+        <p className="text-muted-foreground text-sm">
+          Escribe tu artículo y obtén sugerencias inteligentes para mejorarlo.
         </p>
       </div>
 
-      {/* Main Layout - 3 Columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Left Column - Original Content (40%) */}
-        <div className="lg:col-span-2">
-          <Card className="h-full">
-            <CardHeader className="pb-3">
+      {/* Main Layout - Content + Sidebar */}
+      <div className="flex-1 flex gap-6 overflow-hidden">
+        {/* Main Content Area */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
+          {/* Left Column - Original Content */}
+          <Card className="flex flex-col h-full">
+            <CardHeader className="pb-3 flex-shrink-0">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg flex items-center gap-2">
                   <FileText className="w-5 h-5" />
                   {editorState === 'WRITING' ? 'Artículo Original' : 'Versión Original'}
                 </CardTitle>
-                {editorState === 'CORRECTED' && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowOriginal(!showOriginal)}
-                  >
-                    {showOriginal ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </Button>
-                )}
               </div>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit(handleCorrection)} className="space-y-4">
-                {/* Title */}
-                <div>
-                  <label htmlFor="title" className="block text-sm font-medium mb-2">
-                    Título del Artículo
-                  </label>
+            <CardContent className="flex-1 flex flex-col gap-4 overflow-y-auto">
+              <form onSubmit={handleSubmit(handleCorrection)} className="flex-1 flex flex-col gap-4">
+                <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="title">Título del Artículo</Label>
                   <Controller
                     name="title"
                     control={control}
                     render={({ field }) => (
-                      <input
+                      <Input
                         {...field}
+                        id="title"
                         type="text"
                         disabled={editorState !== 'WRITING'}
-                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                         placeholder="Escribe un título atractivo..."
                       />
                     )}
@@ -272,21 +263,18 @@ export default function EditorPage() {
                   )}
                 </div>
 
-                {/* Content Editor */}
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Contenido del Artículo
-                  </label>
+                <div className="flex-1 flex flex-col gap-1.5">
+                  <Label>Contenido del Artículo</Label>
                   <Controller
                     name="content"
                     control={control}
                     render={({ field }) => (
-                                             <TextEditor
-                         value={field.value}
-                         onChange={editorState === 'WRITING' ? field.onChange : () => {}}
-                         placeholder="Comienza a escribir tu artículo aquí..."
-                         className={editorState !== 'WRITING' ? 'opacity-75 pointer-events-none' : ''}
-                       />
+                      <TextEditor
+                        value={field.value}
+                        onChange={editorState === 'WRITING' ? field.onChange : () => {}}
+                        placeholder="Comienza a escribir tu artículo aquí..."
+                        className={`flex-1 ${editorState !== 'WRITING' ? 'opacity-75 pointer-events-none' : ''}`}
+                      />
                     )}
                   />
                   {errors.content && (
@@ -294,122 +282,104 @@ export default function EditorPage() {
                   )}
                 </div>
 
-                {/* Correction Button */}
                 {editorState === 'WRITING' && (
-                  <Button 
-                    type="submit" 
-                    className="w-full"
-                    disabled={!contentValidation.isValid}
-                  >
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    Corregir y Mejorar Artículo
-                  </Button>
-                )}
-
-                {/* Validation Errors */}
-                {!contentValidation.isValid && contentValidation.errors.length > 0 && (
-                  <Alert>
-                    <AlertDescription>
-                      <ul className="list-disc list-inside text-sm">
-                        {contentValidation.errors.map((error, index) => (
-                          <li key={index}>{error}</li>
-                        ))}
-                      </ul>
-                    </AlertDescription>
-                  </Alert>
+                  <div className="mt-auto flex-shrink-0 pt-4">
+                    {!contentValidation.isValid && contentValidation.errors.length > 0 && (
+                      <Alert variant="default" className="mb-4">
+                        <AlertDescription>
+                          <ul className="list-disc list-inside text-sm">
+                            {contentValidation.errors.map((error, index) => (
+                              <li key={index}>{error}</li>
+                            ))}
+                          </ul>
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                    <Button 
+                      type="submit" 
+                      className="w-full"
+                      disabled={!contentValidation.isValid}
+                    >
+                      <Wand2 className="w-4 h-4 mr-2" />
+                      Corregir y Mejorar Artículo
+                    </Button>
+                  </div>
                 )}
               </form>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Center Column - Corrected Content (40%) */}
-        <div className="lg:col-span-2">
-          {editorState === 'CORRECTING' && (
-            <Card className="h-full flex items-center justify-center">
-              <CardContent className="text-center">
-                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
-                <h3 className="text-lg font-medium mb-2">Procesando correcciones...</h3>
-                <p className="text-sm text-muted-foreground">
-                  Esto puede tomar unos momentos. Nuestros agentes están analizando tu artículo.
-                </p>
-              </CardContent>
-            </Card>
-          )}
-
-          {editorState === 'CORRECTED' && (
-            <Card className="h-full">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <FileText className="w-5 h-5" />
-                    Versión Corregida
-                  </CardTitle>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={handleSave}
-                  >
+          {/* Right Column - Corrected Content */}
+          <Card className="flex flex-col h-full">
+            <CardHeader className="pb-3 flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Versión Corregida
+                </CardTitle>
+                {editorState === 'CORRECTED' && (
+                  <Button variant="default" size="sm" onClick={handleSave}>
                     <Save className="w-4 h-4 mr-2" />
                     Guardar
                   </Button>
+                )}
+              </div>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col gap-4 overflow-y-auto">
+              {editorState === 'CORRECTING' && (
+                <div className="m-auto text-center">
+                  <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Procesando...</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Nuestros agentes están analizando tu artículo.
+                  </p>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {/* Corrected Title */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Título Corregido
-                    </label>
-                    <input
+              )}
+
+              {editorState === 'CORRECTED' && (
+                <>
+                  <div className="grid w-full items-center gap-1.5">
+                    <Label htmlFor="corrected-title">Título Corregido</Label>
+                    <Input
+                      id="corrected-title"
                       type="text"
                       value={watchedTitle}
                       onChange={(e) => setValue('title', e.target.value)}
-                      className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-
-                  {/* Corrected Content */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Contenido Corregido
-                    </label>
+                  <div className="flex-1 flex flex-col gap-1.5">
+                    <Label>Contenido Corregido</Label>
                     <TextEditor
                       key={editorKey}
                       value={correctedContent}
                       onChange={setCorrectedContent}
-                      placeholder="Contenido corregido aparecerá aquí..."
+                      placeholder="El contenido corregido aparecerá aquí..."
+                      className="flex-1"
                     />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                </>
+              )}
 
-          {correctionError && (
-            <Card className="h-full">
-              <CardContent className="flex items-center justify-center">
-                <Alert variant="destructive">
-                  <AlertDescription>
-                    <strong>Error al procesar correcciones:</strong> {correctionError}
-                  </AlertDescription>
-                </Alert>
-              </CardContent>
-            </Card>
-          )}
+              {correctionError && editorState !== 'CORRECTING' && (
+                <div className="m-auto">
+                  <Alert variant="destructive">
+                    <AlertDescription>
+                      <strong>Error:</strong> {correctionError}
+                    </AlertDescription>
+                  </Alert>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Right Column - Suggestions & Stats (20%) */}
-        <div className="lg:col-span-1 space-y-4">
-          {/* Stats Panel */}
+        {/* Right Sidebar - Suggestions & Stats */}
+        <div className="w-[340px] flex-shrink-0 flex flex-col gap-4 overflow-y-auto">
           <StatsPanel
             originalStats={originalStats}
             correctedStats={correctedStats}
             showComparison={editorState === 'CORRECTED'}
           />
-
-          {/* Suggestions Panel */}
           {editorState === 'CORRECTED' && (
             <SuggestionsPanel
               complexSentences={complexSentences}
