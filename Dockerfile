@@ -17,6 +17,15 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+COPY ./prisma ./prisma
+
+ENV DATABASE_URL="postgresql://postgres.kpowxgtqcxilixdompkx:Lct6467bZ4tP5KGA@aws-0-us-east-2.pooler.supabase.com:6543/postgres?pgbouncer=true"
+
+ENV DIRECT_URL="postgresql://postgres.kpowxgtqcxilixdompkx:Lct6467bZ4tP5KGA@aws-0-us-east-2.pooler.supabase.com:5432/postgres"
+
+RUN pnpm dlx prisma generate
+
+
 
 # Rebuild the source code only when needed
 FROM base AS builder
