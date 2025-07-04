@@ -14,19 +14,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BestWriter - Write perfect blogs with AI",
+  title: "SharplinePro - Professional Content Creation Tool",
   description: "Transform your ideas into professional content. Automatic correction and SEO-optimized excerpts. All in one platform.",
   keywords: "writing, blog, AI, artificial intelligence, correction, SEO",
   authors: [{ name: "Resagar" }],
   openGraph: {
-    title: "BestWriter - Write perfect blogs with AI",
+    title: "SharplinePro - Professional Content Creation Tool",
     description: "Transform your ideas into professional content with artificial intelligence",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BestWriter - Write perfect blogs with AI",
+    title: "SharplinePro - Professional Content Creation Tool",
     description: "Transform your ideas into professional content with artificial intelligence",
   },
 };

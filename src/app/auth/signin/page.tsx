@@ -11,8 +11,8 @@ export default function SigninPage() {
           <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center mx-auto mb-2">
             <PenToolIcon className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">BestWriter</h1>
-          <p className="text-gray-600">Welcome back to your writing assistant</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">SharplinePro</h1>
+          <p className="text-gray-600">Welcome back to your professional content tool</p>
         </div>
         <Suspense fallback={<div>Loading...</div>}>
           <SigninForm />

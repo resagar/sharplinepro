@@ -63,7 +63,7 @@ export default function LandingPage() {
               <PenToolIcon className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-              BestWriter
+              SharplinePro
             </span>
           </motion.div>
           <nav className="hidden md:flex items-center space-x-8">
@@ -506,7 +506,7 @@ export default function LandingPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600">
-              Everything you need to know about BestWriter
+              Everything you need to know about SharplinePro
             </p>
           </motion.div>
 
@@ -605,7 +605,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Join thousands of writers who are already creating professional-quality content with BestWriter
+            Join thousands of writers who are already creating professional-quality content with SharplinePro
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -647,7 +647,7 @@ export default function LandingPage() {
                 <div className="w-8 h-8 bg-gradient-to-br from-[#4F46E5] to-[#7C3AED] rounded-lg flex items-center justify-center shadow-lg">
                   <PenToolIcon className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">BestWriter</span>
+                <span className="text-xl font-bold">SharplinePro</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
                 The smart writing platform that transforms your ideas into professional content.
@@ -705,7 +705,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <p>&copy; 2024 BestWriter. All rights reserved.</p>
+            <p>&copy; 2024 SharplinePro. All rights reserved.</p>
           </motion.div>
         </div>
       </footer>

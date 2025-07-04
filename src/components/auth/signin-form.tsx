@@ -68,7 +68,7 @@ export function SigninForm() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Welcome back</CardTitle>
         <CardDescription>
-          Sign in to your BestWriter account
+          Sign in to your SharplinePro account
         </CardDescription>
       </CardHeader>
       <CardContent>

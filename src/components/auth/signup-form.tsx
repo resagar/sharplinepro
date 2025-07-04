@@ -85,7 +85,7 @@ export function SignupForm() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl">Create your account</CardTitle>
         <CardDescription>
-          Start your journey with BestWriter today
+          Start your journey with SharplinePro today
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -31,7 +31,7 @@ export default async function DashboardPage() {
             <div className="w-8 h-8 bg-[#4F46E5] rounded-lg flex items-center justify-center">
               <PenToolIcon className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">BestWriter</span>
+                          <span className="text-xl font-bold text-gray-900">SharplinePro</span>
           </Link>
           <div className="flex items-center space-x-4">
             <Badge variant="secondary" className="bg-green-100 text-green-800">
